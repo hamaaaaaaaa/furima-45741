@@ -20,7 +20,7 @@ gem "importmap-rails"
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 gem "turbo-rails"
 
-# Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
+# Hotwire's modest JavaScript framework [https://hotwired.dev]
 gem "stimulus-rails"
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
@@ -47,6 +47,8 @@ gem "bootsnap", require: false
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ]
+  gem 'rspec-rails', '~> 4.0.0'
+  gem 'factory_bot_rails'
 end
 
 group :development do
@@ -59,6 +61,7 @@ group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
 
+  gem 'rubocop', '1.71.2', require: false
 end
 
 group :test do
@@ -66,9 +69,12 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
-group :development do
-  gem 'rubocop', '1.71.2', require: false
-end
+
 group :production do
-  gem 'pg'
+  gem "pg"
+end
+
+gem "devise"
+group :development, :test do
+  gem 'faker'
 end
