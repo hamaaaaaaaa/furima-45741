@@ -1,6 +1,16 @@
 class Item < ApplicationRecord
-  belongs_to :user
+  extend ActiveHash::Associations::ActiveRecordExtensions
 
-  # 商品に画像1枚を添付できるようにする
+  # ActiveHash
+  belongs_to :category
+  belongs_to :condition
+  belongs_to :shipping_charge
+  belongs_to :prefecture
+  belongs_to :delivery_day
+
+  # ActiveStorage
   has_one_attached :image
+
+  # User
+  belongs_to :user
 end
