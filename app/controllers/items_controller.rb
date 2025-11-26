@@ -1,26 +1,27 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create]
 
+  def index
+    @items = Item.order(created_at: :desc)
+  end
+  
   def new
     @item = Item.new
   end
 
   def create
-    # 入力された情報をもとにItemインスタンスを作成
     @item = Item.new(item_params)
-    @item.user = current_user # 出品者情報として現在のユーザーを紐付け
+    @item.user = current_user
 
-    # バリデーションを通すかどうかで処理を分岐
     if @item.save
-      redirect_to root_path  # 保存成功 → トップページへ
+      redirect_to root_path
     else
-      render :new, status: :unprocessable_entity # 保存失敗 → 出品ページに戻す（入力内容は保持）
+      render :new, status: :unprocessable_entity
     end
   end
 
   private
 
-  # Strong Parametersで許可する属性を指定
   def item_params
     params.require(:item).permit(
       :item_name,
