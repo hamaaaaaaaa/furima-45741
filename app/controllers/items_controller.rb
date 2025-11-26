@@ -14,7 +14,7 @@ class ItemsController < ApplicationController
     if @item.save
       redirect_to root_path  # 保存成功 → トップページへ
     else
-      render :new           # 保存失敗 → 出品ページに戻す（入力内容は保持）
+      render :new, status: :unprocessable_entity # 保存失敗 → 出品ページに戻す（入力内容は保持）
     end
   end
 
