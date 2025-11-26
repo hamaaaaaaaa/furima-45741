@@ -73,7 +73,7 @@
     <ul class='item-lists'>
       <% @items.each do |item| %>
         <li class='list'>
-          <%= link_to item_path(item) do %>
+          <%= link_to "#" do %>
             <div class='item-img-content'>
               <%= image_tag(item.image&.attached? ? item.image : "dummy_image.png", class: "item-img") %>
             </div>
