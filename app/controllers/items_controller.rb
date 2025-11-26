@@ -1,8 +1,22 @@
+require 'ostruct'
+
 class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create]
 
   def index
     @items = Item.order(created_at: :desc)
+
+    # 商品が一つもない場合にダミーを作る
+    if @items.empty?
+      @items = [
+        OpenStruct.new(
+          item_name: "商品を出品してね!",
+          price: 99999999,
+          shipping_charge: OpenStruct.new(name: "税込み"),
+          image: nil
+        )
+      ]
+    end
   end
   
   def new
