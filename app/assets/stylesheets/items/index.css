@@ -309,3 +309,13 @@ a {
 }
 
 /* //商品一覧 */
+
+.item-lists {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.item-lists > .list {
+  list-style: none;
+}
