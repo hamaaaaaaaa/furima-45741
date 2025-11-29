@@ -5,12 +5,9 @@
     <h2 class="name"><%= @item.item_name %></h2>
 
     <div class="item-img-content">
-      <% if @item.image.attached? %>
-        <%= image_tag @item.image, class: "item-box-img" %>
-      <% else %>
-        <%= image_tag "item-sample.png", class: "item-box-img" %>
-      <% end %>
-    </div>
+  <%= image_tag @item.image, class: "item-box-img" %>
+</div>
+
 
     <div class="item-price-box">
       <span class="item-price">¥ <%= number_with_delimiter(@item.price) %></span>
