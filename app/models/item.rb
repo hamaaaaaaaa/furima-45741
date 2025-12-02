@@ -14,7 +14,7 @@ class Item < ApplicationRecord
   # User
   belongs_to :user
 
-  #has_one :buy 
+  has_one :order
 
   # バリデーション
   validates :image, presence: true
