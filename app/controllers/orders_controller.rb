@@ -8,11 +8,13 @@ class OrdersController < ApplicationController
 
   def create
     @purchase_form = PurchaseForm.new(purchase_form_params)
-    if @purchase_form.save
-      redirect_to root_path
-    else
-      render :index
-    end
+  
+    if @purchase_form.valid?
+          @purchase_form.save   # DB保存（purchase + address）
+          redirect_to root_path  
+         else
+          render :index
+        end
   end
 
   private
