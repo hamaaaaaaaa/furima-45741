@@ -91,4 +91,9 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 =end
+  # ...
+  # Kernel.srand config.seed
+  # =end
+  config.full_backtrace = true
 end
+
