@@ -1,37 +1,45 @@
-// document.addEventListener('DOMContentLoaded', () => {
-//   const payjp = Payjp('pk_test_xxxxxxxxxxxxxxxxxxxxxx'); 
-//   const elements = payjp.elements();
+document.addEventListener('turbo:load', () => {
+  const publicKey = gon.public_key
+  const payjp = Payjp(publicKey) // PAY.JPテスト公開鍵
+  const elements = payjp.elements();
 
-//   const numberElement = elements.create('cardNumber');
-//   const expiryElement = elements.create('cardExpiry');
-//   const cvcElement = elements.create('cardCvc');
+  // --- カード番号 --
+  const numberElement = elements.create('cardNumber');
+  numberElement.mount('#number-form');
 
-//   numberElement.mount('#number-form');
-//   expiryElement.mount('#expiry-form');
-//   cvcElement.mount('#cvc-form');
+  // --- 有効期限 ---
+  const expiryElement = elements.create('cardExpiry');
+  expiryElement.mount('#expiry-form');
 
-//   const form = document.getElementById('charge-form');
+  // --- CVC ---
+  const cvcElement = elements.create('cardCvc');
+  cvcElement.mount('#cvc-form');
 
-//   form.addEventListener('submit', async (e) => {
-//     e.preventDefault();
+  // --- フォーム取得 ---
+  const form = document.getElementById('charge-form');
 
-//     const { token, error } = await payjp.createToken(numberElement);
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
 
-//     if (error) {
-//       alert(error.message);
-//       return;
-//     }
+    // トークン生成
+    payjp.createToken(numberElement).then((response) => {
+      if (response.error) {
+        console.error(response.error.message);
+        return;
+      }
 
-//     const tokenObj = document.createElement('input');
-//     tokenObj.setAttribute('type', 'hidden');
-//     tokenObj.setAttribute('name', 'purchase_form[token]');
-//     tokenObj.setAttribute('value', token.id);
-//     form.appendChild(tokenObj);
+      const token = response.id;
 
-//     numberElement.clear();
-//     expiryElement.clear();
-//     cvcElement.clear();
+      // hidden_field に token をセット
+      const tokenInput = document.createElement('input');
+      tokenInput.setAttribute('type', 'hidden');
+      tokenInput.setAttribute('name', 'token');
+      tokenInput.setAttribute('value', token);
 
-//     form.submit();
-//   });
-// });
+      form.appendChild(tokenInput);
+
+      // フォーム送信
+      form.submit();
+    });
+  });
+});

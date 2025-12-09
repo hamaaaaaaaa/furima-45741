@@ -14,7 +14,7 @@ class PurchaseForm
     validates :city
     validates :address
     validates :phone_number
-    # validates :token
+    validates :token
   end
 
   # 個別バリデーション
