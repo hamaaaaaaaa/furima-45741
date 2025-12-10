@@ -58,7 +58,8 @@ end
   private
 
   def set_item
-    @item = Item.find(params[:id])
+     @item = Item.find_by(id: params[:id])
+    redirect_to root_path unless @item
   end
 
   def move_to_index_if_not_owner
