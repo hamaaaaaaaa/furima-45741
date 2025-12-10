@@ -8,11 +8,12 @@
 
     <%# 購入内容 %>
     <div class='buy-item-info'>
-      <%= image_tag "item-sample.png", class: 'buy-item-img' %>
+      <%= image_tag @item.image, class: 'buy-item-img' %>
       <div class='buy-item-right-content'>
-        <h2 class='buy-item-text'>商品名</h2>
+        <h2 class='buy-item-text'><%= @item.item_name %></h2>
+
         <div class='buy-item-price'>
-          <p class='item-price-text'>¥999,999,999</p>
+          <p class='item-price-text'>¥<%= @item.price %></p>
           <p class='item-price-sub-text'>配送料負担</p>
         </div>
       </div>
@@ -24,7 +25,7 @@
     <%# 支払額 %>
     <div class='item-payment'>
       <h1 class='item-payment-title'>支払金額</h1>
-      <p class='item-payment-price'>¥販売価格</p>
+      <p class='item-payment-price'>¥<%= @item.price %></p>
     </div>
 
     <%= form_with model: @purchase_form, url: item_orders_path(@item), local: true, data: { turbo: false }, class: 'transaction-form-wrap', id: 'charge-form' do |f| %>

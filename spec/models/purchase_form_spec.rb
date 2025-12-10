@@ -7,8 +7,7 @@ RSpec.describe PurchaseForm, type: :model do
   @purchase_form = FactoryBot.build(
     :purchase_form,
     user_id: user.id,
-    item_id: item.id,
-    token: "tok_abcdefghijk00000000000000000"  # ダミーのトークン
+    item_id: item.id
   )
  end
 
@@ -30,6 +29,12 @@ RSpec.describe PurchaseForm, type: :model do
         @purchase_form.valid?
         expect(@purchase_form.errors.full_messages).to include("Postal code はハイフンを含む形式で入力してください")
       end
+
+    it "郵便番号が空だと無効" do
+  @purchase_form.postal_code = ""
+  @purchase_form.valid?
+  expect(@purchase_form.errors.full_messages).to include("Postal code can't be blank")
+    end
 
       it "都道府県が1だと無効" do
         @purchase_form.prefecture_id = 1
@@ -55,6 +60,12 @@ RSpec.describe PurchaseForm, type: :model do
         expect(@purchase_form.errors.full_messages).to include("Phone number can't be blank", "Phone number は10〜11桁の数字で入力してください")
       end
 
+      it "電話番号が半角数字以外だと無効" do
+  @purchase_form.phone_number = "１２３４５６７８９０"
+  @purchase_form.valid?
+  expect(@purchase_form.errors.full_messages).to include("Phone number は10〜11桁の数字で入力してください")
+      end
+      
       it "電話番号が10桁未満だと無効" do
         @purchase_form.phone_number = "123456789"
         @purchase_form.valid?

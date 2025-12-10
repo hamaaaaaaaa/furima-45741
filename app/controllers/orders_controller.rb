@@ -3,14 +3,14 @@ class OrdersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_item
   before_action :redirect_if_seller, only: [:index, :create]
+  before_action :redirect_if_sold_out, only: [:index, :create]
 
   def index
     gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
     @purchase_form = PurchaseForm.new
   end
 
-  def create
-     @item = Item.find(params[:item_id])   
+  def create  
     @purchase_form = PurchaseForm.new(purchase_form_params)
   
     if @purchase_form.valid?
@@ -25,8 +25,8 @@ class OrdersController < ApplicationController
   def pay_item
     Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
       Payjp::Charge.create(
-        amount: order_params[:price],  # 商品の値段
-        card: order_params[:token],    # カードトークン
+        amount: @item.price, # 商品の値段
+        card: params[:token],    # カードトークン
         currency: 'jpy'                 # 通貨の種類（日本円）
       )
 end
@@ -47,16 +47,12 @@ end
   )
  end
 
- def order_params
-    {
-      price: @item.price,
-      token: params[:token]
-    }
+   def redirect_if_seller
+    redirect_to root_path if current_user.id == @item.user_id
   end
 
-  def redirect_if_seller
-    if current_user.id == @item.user_id
-      redirect_to root_path
-    end
+  def redirect_if_sold_out
+    redirect_to root_path if @item.sold_out?
   end
 end
+
