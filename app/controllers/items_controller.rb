@@ -2,8 +2,8 @@ require 'ostruct'
 
 class ItemsController < ApplicationController
 before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
-before_action :set_item, only: [:show, :edit, :update, :destroy]                  # ← destroy 追加
-before_action :move_to_index_if_not_owner, only: [:edit, :update, :destroy]       # ← destroy 追加  
+before_action :set_item, only: [:show, :edit, :update, :destroy]
+before_action :move_to_index_if_not_owner_or_sold, only: [:edit, :update, :destroy]
 
   def index
     @items = Item.order(created_at: :desc)
@@ -64,6 +64,10 @@ end
   def move_to_index_if_not_owner
     redirect_to root_path if @item.user != current_user
   end
+
+  def move_to_index_if_not_owner_or_sold
+  redirect_to root_path if @item.user != current_user || @item.order.present?
+end
 
   def item_params
     params.require(:item).permit(

@@ -4,7 +4,9 @@ Rails.application.routes.draw do
   root "items#index"
 
   # items の各アクションを自動で作成
-  resources :items
+  resources :items do
+   resources :orders, only: [:index, :create]
+  end
 
   # health check
   get "up" => "rails/health#show", as: :rails_health_check

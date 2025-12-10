@@ -79,3 +79,9 @@ group :development, :test do
   gem 'faker'
 end
 gem 'active_hash'
+
+gem 'pry-rails'
+
+gem 'payjp'
+
+gem 'gon'
