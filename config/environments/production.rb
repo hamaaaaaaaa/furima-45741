@@ -94,4 +94,8 @@ Rails.application.configure do
   # ]
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+
+# Global ID のアプリ名設定（production用）
+config.global_id.app = "furima-45741"
+
 end
