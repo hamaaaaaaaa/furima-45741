@@ -98,4 +98,6 @@ Rails.application.configure do
 # Global ID のアプリ名設定（production用）
 config.global_id.app = "furima-45741"
 
+server '3.115.205.240' , user: 'ec2-user', roles: %w{app db web}
+
 end
